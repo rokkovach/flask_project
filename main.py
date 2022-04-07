@@ -1,12 +1,18 @@
 from flask import Flask, jsonify
+from flask import request
 import os
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def index():
-    return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
+    request_data = request.get_json()
+    first_name = request_data["first_name"].capitalize()
+    last_name = request_data["last_name"].capitalize()
+    email = request_data["email"]
+    domain = email[email.index('@') + 1 : ]
+    return jsonify({"first_name": first_name, "last_name": last_name, "email": email, "domain" : domain})
 
 
 if __name__ == '__main__':
